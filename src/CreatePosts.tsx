@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import './App.css'
-// import {addArticle} from './services/ArticleService';
+import {createPost} from './services/ArticleService';
 
 function CreatePosts() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [tags, setTags] = useState([])
+  const [tags, setTags] = useState<string[]>([])
   const handleSubmit = async () => {
     try{
-      // const id = await addArticle({});
+      await createPost({title: title, content: content, tags: tags});
       console.log(`Success`);
     }catch(e){
       console.error(`Error: ${e}`)
@@ -25,12 +25,12 @@ function CreatePosts() {
           <input type="text" value={title} onChange={e => setTitle(e.target.value)}/>
         </div>
         <div className="form-input">
-          <label>Password: </label>
-          <input type="password" value={content} onChange={e=>setContent(e.target.value)}/>
+          <label>contents: </label>
+          <textarea value={content} onChange={e=>setContent(e.target.value)}/>
         </div>
          <div className="form-input">
-          <label>display name: </label>
-          <input type="text" value={tags} onChange={e=>setTags(e.target.value.split(","))}/>
+          <label>tags: </label>
+          <input type="text" value={tags} onChange={e=>setTags(Array.from(e.target.value.split(",").map(tag => tag.trim())))}/>
         </div>
         <button onClick={handleSubmit}>Submit</button>
        </section>
