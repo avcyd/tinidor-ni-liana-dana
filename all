@@ -1,0 +1,35 @@
+import {Timestamp} from "firebase/firestore";
+
+interface CommentProps {
+  id: string,
+  articleId: string,
+  userId: string,
+  replyTargetId: string,
+  content: string
+  createdAt: Timestamp
+
+}
+
+export const transform = (id: string, data:Omit<CommentProps, "id">):CommentProps => {
+  if(!id) throw new Error(`REQUIRED: Missing id`);
+  if(!data.createdAt) throw new Error(`REQUIRED missing createdAt`);
+
+  return {
+    id: id,
+    ...data
+  }
+}
+
+export const createComment = (data:Partial<CommentProps>): Partial<CommentProps> => {
+  if(!data.articleId) throw new Error(`REQUIRED: Missing articleId`);
+  if(!data.userId) throw new Error(`REQUIRED: Missing UserId`);
+  if(!data.replyTargetId) throw new Error(`REQUIRED: Missing replyTargetId`);
+  if(!data.content?.trim()) throw new Error(`REQUIRED: Missing content`);
+
+  return{
+    articleId: data.articleId,
+    userId: data.userId,
+    replyTargetId: data.replyTargetId,
+    content: data.content,
+  }
+}
