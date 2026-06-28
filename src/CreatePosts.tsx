@@ -30,7 +30,7 @@ function CreatePosts() {
      <div>
       <h2>Create Post:</h2>
       <h3>Status: {currentUserId && "Form Enabled" || "Not Logged in (Form Disabled)"}</h3>
-      <section >
+       {(currentUserId) && (<section >
         <div className="form-input">
           <label>Title</label>
           <input disabled={currentUserId ? false : true} type="text" value={title} onChange={e => setTitle(e.target.value)}/>
@@ -44,7 +44,7 @@ function CreatePosts() {
           <input disabled={currentUserId ? false : true} type="text" value={tags} onChange={e=>setTags(Array.from(e.target.value.split(",").map(tag => tag.trim())))}/>
         </div>
         <button onClick={handleSubmit}>Submit</button>
-       </section>
+       </section>)}
      </div>
     </>
   )

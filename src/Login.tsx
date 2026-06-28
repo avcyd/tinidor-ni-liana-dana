@@ -28,7 +28,8 @@ function Login() {
      <h2>Login:</h2>
       <h3>Status: {(currentUser) ? `Welcome: ${currentUser} ` : "Not Logged in (Form Disabled)"}</h3>
       <section >
-        <div className="form-input">
+      {!currentUser ? (<>
+       <div className="form-input">
           <label>Title</label>
           <input disabled={currentUser ?  true : false} type="email" value={email} onChange={e => setEmail(e.target.value)}/>
         </div>
@@ -36,8 +37,8 @@ function Login() {
           <label>password: </label>
           <input disabled={currentUser ?  true : false} type="password" value={password} onChange={e=>setPassword(e.target.value)}/>
         </div>
-        {currentUser ? <button onClick={logout}>Logout</button> : <button onClick={handleSubmit}>Submit</button> }
-       </section>
+        <button onClick={handleSubmit}>Submit</button></>) : <button onClick={logout}>Logout</button> }
+      </section>
      </div>
     </>
   )

@@ -24,7 +24,8 @@ button {
   padding: 8px 16px;
   cursor: pointer;
   font-size: 14px;
-  margin-top: 8px;
+  margin: 8px auto 0;
+  display: block;
 }
 
 button:hover {
