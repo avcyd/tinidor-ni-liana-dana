@@ -2,6 +2,7 @@ import AddUser from "./frontend/AddUser";
 import CreatePosts from "./frontend/CreatePosts";
 import Login from "./frontend/Login";
 import NewsPage from "./frontend/NewsPage";
+import JournalistDashboard from "./frontend/JournalistDashboard";
 import "./App.css";
 import { Link, Routes, Route } from "react-router-dom";
 
@@ -36,6 +37,7 @@ function App() {
       <Route path="/add-user" element={<AddUser />} />
       <Route path="/create-post" element={<CreatePosts />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<JournalistDashboard />} />
     </Routes>
   );
 }
