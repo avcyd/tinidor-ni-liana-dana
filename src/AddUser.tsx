@@ -10,6 +10,9 @@ function AddUser() {
     try{
       const id = await setUser({email:email, displayName:displayName}, password);
       console.log(`Success created user of ${id}`);
+      setEmail('');
+      setPassword('');
+      setDisplayName('');
     }catch(e){
       console.error(`Error: ${e}`)
     }

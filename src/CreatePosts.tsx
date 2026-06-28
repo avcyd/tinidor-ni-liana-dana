@@ -8,7 +8,6 @@ function CreatePosts() {
   const [content, setContent] = useState('');
   const [tags, setTags] = useState<string[]>([])
 
-
   const [currentUserId, setCurrentUserId] = useState('');
 
   doOnAuthStateChange(()=>setCurrentUserId(getCurrentUser()?.uid || ''));

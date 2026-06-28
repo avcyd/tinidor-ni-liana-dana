@@ -1,6 +1,7 @@
 import AddUser from './AddUser'
 import CreatePosts from './CreatePosts'
 import Login from './Login'
+import ArticleViewer from './ArticleViewer'
 import './App.css'
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <AddUser />
       <CreatePosts />
       <Login />
+      <ArticleViewer />
     </>
   )
 }

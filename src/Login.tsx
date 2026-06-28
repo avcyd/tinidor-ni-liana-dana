@@ -9,7 +9,7 @@ function Login() {
   const [currentUser, setCurrentUser] = useState('');
 
   doOnAuthStateChange(async()=>{
-    const user = await getUserById(getCurrentUser()?.uid);
+    const user = await getUserById(getCurrentUser()?.uid || '');
     setCurrentUser( user.displayName || '')
   });
 
