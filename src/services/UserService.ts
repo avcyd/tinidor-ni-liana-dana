@@ -1,6 +1,6 @@
-import {collection, setDoc, getDocs, doc} from 'firebase/firestore';
+import {collection, setDoc, getDocs, getDoc, doc} from 'firebase/firestore';
 import {db, auth} from './firebase';
-import {createUser} from '../models/User';
+import {createUser, transform} from '../models/User';
 import type {UserProps} from '../models/User'
 import {createUserWithEmailAndPassword} from 'firebase/auth'
 
@@ -18,6 +18,11 @@ export async function setUser(data: Partial<UserProps>, password: string): Promi
   }catch(e){
     throw new Error(`Error ${e}, inserting ${JSON.stringify(validated)}`)
   }
+}
+
+export async function getUserById(id:string):Promise<UserProps> {
+  const snapshot = await getDoc(doc(db, "users", id));
+  return transform(snapshot.id, {...snapshot.data() as UserProps})
 }
 
 export async function getAllUsers(){

@@ -1,6 +1,6 @@
-import {collection, addDoc, getDocs } from 'firebase/firestore';
+import {collection, addDoc, getDocs, updateDoc, getDoc, doc} from 'firebase/firestore';
 import {db} from './firebase';
-import {createArticle} from '../models/Article'
+import {createArticle, transform} from '../models/Article'
 import type {ArticleProps} from '../models/Article'
 
 const ref = collection(db, "articles");
@@ -13,6 +13,16 @@ export const createPost = async(data: Partial<ArticleProps>):Promise<void> => {
   }catch(e){
     throw new Error(`Error ${e}, inserting ${JSON.stringify(completeArticle)}`)
   }
+}
+
+export const updatePostById = async(id: string, data: Partial<ArticleProps>):Promise<void> =>{
+  const validate = createArticle(data);
+  await updateDoc(doc(db,"articles", id), {...validate});
+}
+
+export const getPostById = async(id: string):Promise<ArticleProps> => {
+  const snapshot = await getDoc(doc(db, "articles", id));
+  return transform(snapshot.id, {...snapshot.data() as ArticleProps})
 }
 
 export const getAllPosts = async() => {

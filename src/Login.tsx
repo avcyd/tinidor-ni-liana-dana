@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import './App.css'
 import {login, getCurrentUser, doOnAuthStateChange, logout} from './services/AuthService';
+import { getUserById } from './services/UserService';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [currentUser, setCurrentUser] = useState('');
 
-  doOnAuthStateChange(()=>setCurrentUser(getCurrentUser()?.uid || ''));
+  doOnAuthStateChange(async()=>{
+    const user = await getUserById(getCurrentUser()?.uid);
+    setCurrentUser( user.displayName || '')
+  });
 
   const handleSubmit = async () => {
     try{
@@ -21,16 +25,16 @@ function Login() {
   return (
     <>
      <div>
-      <h2>add user (firestore/auth):</h2>
-      <span>Status :{currentUser || "Not Logged in"}</span>
+     <h2>Login:</h2>
+      <h3>Status: {(currentUser) ? `Welcome: ${currentUser} ` : "Not Logged in (Form Disabled)"}</h3>
       <section >
         <div className="form-input">
           <label>Title</label>
-          <input disabled={currentUser? true : false} type="email" value={email} onChange={e => setEmail(e.target.value)}/>
+          <input disabled={currentUser ?  true : false} type="email" value={email} onChange={e => setEmail(e.target.value)}/>
         </div>
          <div className="form-input">
           <label>password: </label>
-          <input disabled={currentUser? true : false} type="password" value={password} onChange={e=>setPassword(e.target.value)}/>
+          <input disabled={currentUser ?  true : false} type="password" value={password} onChange={e=>setPassword(e.target.value)}/>
         </div>
         {currentUser ? <button onClick={logout}>Logout</button> : <button onClick={handleSubmit}>Submit</button> }
        </section>
