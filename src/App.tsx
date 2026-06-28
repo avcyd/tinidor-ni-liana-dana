@@ -1,9 +1,10 @@
 import AddUser from "./frontend/AddUser";
-import CreatePosts from "./frontend/CreatePosts";
+import CreatePosts from "./frontend/journalist-dashboard/CreatePosts";
 import Login from "./frontend/Login";
 import NewsPage from "./frontend/NewsPage";
 import ArticlePage from "./frontend/ArticlePage";
 import JournalistDashboard from "./frontend/JournalistDashboard";
+import Drafts from "./frontend/journalist-dashboard/Drafts";
 import "./App.css";
 import { Link, Routes, Route } from "react-router-dom";
 
@@ -25,6 +26,9 @@ function AdminHome() {
         <li>
           <Link to="/dashboard">Dashboard</Link>
         </li>
+        <li>
+          <Link to="/drafts">Drafts</Link>
+        </li>
       </ul>
     </>
   );
@@ -40,6 +44,7 @@ function App() {
       <Route path="/create-post" element={<CreatePosts />} />
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<JournalistDashboard />} />
+      <Route path="/drafts" element={<Drafts />} />
     </Routes>
   );
 }

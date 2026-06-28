@@ -3,10 +3,18 @@ import { Link } from "react-router-dom";
 import { doOnAuthStateChange } from "../services/AuthService";
 import { getUserById } from "../services/UserService";
 import "./css/JournalistDashboard.css";
-import { House, LayoutDashboard, Pencil, SquarePen } from "lucide-react";
+import {
+  House,
+  LayoutDashboard,
+  Pencil,
+  SquarePen,
+  Menu,
+  X,
+} from "lucide-react";
 
 function JournalistDashboard() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
 
   const stories = [
@@ -29,6 +37,7 @@ function JournalistDashboard() {
   ];
 
   useEffect(() => {
+    // 1. Authentication tracking listener
     const unsub = doOnAuthStateChange(async (user) => {
       if (!user) {
         setCurrentUser("");
@@ -37,19 +46,46 @@ function JournalistDashboard() {
       const userData = await getUserById(user.uid);
       setCurrentUser(userData.displayName || "User");
     });
+
+    // 2. Responsive viewport tracking layout manager
+    const handleResize = () => {
+      if (window.innerWidth <= 1024) {
+        setIsCollapsed(true);
+      } else {
+        setIsCollapsed(false);
+        setIsMobileMenuOpen(false); // Clean up open menus if dragging window larger
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
     return () => {
       if (typeof unsub === "function") unsub();
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
     <div className="dashboard-page">
-      <div>
+      {/* BRANDING HEADER - Swaps behavior internally between layouts using mobile CSS */}
+      <header className="dashboard-header-block">
         <p className="header-text">WebsiteName</p>
-      </div>
+        <button
+          className="hamburger-trigger"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle Navigation Menu"
+        >
+          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </header>
+
       <div
-        className={`dashboard-container ${isCollapsed ? "dashboard-container--collapsed" : ""}`}
+        className={`dashboard-container ${isCollapsed ? "dashboard-container--collapsed" : ""} ${
+          isMobileMenuOpen ? "dashboard-container--mobile-open" : ""
+        }`}
       >
+        {/* SIDEBAR PANEL */}
         <aside className="dashboard-panel dashboard-panel--sidebar">
           <div className="sidebar__header">
             <button
@@ -65,33 +101,43 @@ function JournalistDashboard() {
           </div>
 
           <nav className="sidebar__nav">
-            <div className="nav-item">
+            <div className="nav-item nav-item--active">
               <span className="nav-item__icon">
-                <LayoutDashboard color="#1E1E1E" strokeWidth={1.5} />
+                <LayoutDashboard strokeWidth={1.5} />
               </span>
               <span className="nav-item__text">{"Dashboard"}</span>
             </div>
+
             <div className="nav-item">
               <span className="nav-item__icon">
                 <House color="#1E1E1E" strokeWidth={1.25} />
               </span>
-              <span className="nav-item__text">Home</span>
+              <span className="nav-item__text">
+                <Link to="/">Feed</Link>
+              </span>
             </div>
+
             <div className="nav-item">
               <span className="nav-item__icon">
                 <Pencil color="#1E1E1E" strokeWidth={1.25} />
               </span>
-              <span className="nav-item__text">Create</span>
+              <span className="nav-item__text">
+                <Link to="/create-post">Create</Link>
+              </span>
             </div>
+
             <div className="nav-item">
               <span className="nav-item__icon">
                 <SquarePen color="#1E1E1E" strokeWidth={1.25} />
               </span>
-              <span className="nav-item__text">Drafts</span>
+              <span className="nav-item__text">
+                <Link to="/drafts">Drafts</Link>
+              </span>
             </div>
           </nav>
         </aside>
 
+        {/* WORKSPACE AREA */}
         <main className="dashboard-panel dashboard-panel--main">
           <h2 className="feed-section-title">MOST RECENT</h2>
 
