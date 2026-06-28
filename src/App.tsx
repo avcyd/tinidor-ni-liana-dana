@@ -2,6 +2,7 @@ import AddUser from "./frontend/AddUser";
 import CreatePosts from "./frontend/CreatePosts";
 import Login from "./frontend/Login";
 import NewsPage from "./frontend/NewsPage";
+import ArticlePage from "./frontend/ArticlePage";
 import JournalistDashboard from "./frontend/JournalistDashboard";
 import "./App.css";
 import { Link, Routes, Route } from "react-router-dom";
@@ -33,6 +34,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<NewsPage />} />
+      <Route path="/article/:id" element={<ArticlePage />} />
       <Route path="/admin" element={<AdminHome />} />
       <Route path="/add-user" element={<AddUser />} />
       <Route path="/create-post" element={<CreatePosts />} />
