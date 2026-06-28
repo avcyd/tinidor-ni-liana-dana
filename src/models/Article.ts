@@ -1,4 +1,4 @@
-import {Timestamp} from "firebase/firestore";
+import {Timestamp, FieldValue, serverTimestamp} from "firebase/firestore";
 
 export interface ArticleProps {
   id: string,
@@ -8,7 +8,8 @@ export interface ArticleProps {
   tags: string[],
   status: 'PUBLISHED' | 'DRAFT',
   imageURL?: string,
-  createdAt: Timestamp
+  createdAt: Timestamp | FieldValue
+  modifiedAt: Timestamp | FieldValue
 
 }
 
@@ -33,5 +34,7 @@ export const createArticle = (data:Partial<ArticleProps>): Partial<ArticleProps>
     tags: data.tags,
     status: data.status || 'DRAFT',
     imageURL: data.imageURL || "",
+    createdAt: serverTimestamp(),
+    modifiedAt: serverTimestamp()
   }
 }

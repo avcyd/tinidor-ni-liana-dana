@@ -9,14 +9,17 @@ function CreatePosts() {
   const [tags, setTags] = useState<string[]>([])
 
 
-  const [currentUser, setCurrentUser] = useState('');
+  const [currentUserId, setCurrentUserId] = useState('');
 
-  doOnAuthStateChange(()=>setCurrentUser(getCurrentUser()?.uid || ''));
+  doOnAuthStateChange(()=>setCurrentUserId(getCurrentUser()?.uid || ''));
 
   const handleSubmit = async () => {
     try{
-      await createPost({creatorId: currentUser, title: title, content: content, tags: tags});
+      await createPost({creatorId: currentUserId, title: title, content: content, tags: tags});
       console.log(`Success`);
+      setTitle("");
+      setContent('');
+      setTags([]);
     }catch(e){
       console.error(`Error: ${e}`)
     }
@@ -26,19 +29,19 @@ function CreatePosts() {
     <>
      <div>
       <h2>Create Post:</h2>
-      <h3>Status: {currentUser && "Form Enabled" || "Not Logged in (Form Disabled)"}</h3>
+      <h3>Status: {currentUserId && "Form Enabled" || "Not Logged in (Form Disabled)"}</h3>
       <section >
         <div className="form-input">
           <label>Title</label>
-          <input disabled={currentUser ? false : true} type="text" value={title} onChange={e => setTitle(e.target.value)}/>
+          <input disabled={currentUserId ? false : true} type="text" value={title} onChange={e => setTitle(e.target.value)}/>
         </div>
         <div className="form-input">
           <label>contents: </label>
-          <textarea disabled={currentUser ? false : true} value={content} onChange={e=>setContent(e.target.value)}/>
+          <textarea disabled={currentUserId ? false : true} value={content} onChange={e=>setContent(e.target.value)}/>
         </div>
          <div className="form-input">
           <label>tags: </label>
-          <input disabled={currentUser ? false : true} type="text" value={tags} onChange={e=>setTags(Array.from(e.target.value.split(",").map(tag => tag.trim())))}/>
+          <input disabled={currentUserId ? false : true} type="text" value={tags} onChange={e=>setTags(Array.from(e.target.value.split(",").map(tag => tag.trim())))}/>
         </div>
         <button onClick={handleSubmit}>Submit</button>
        </section>
