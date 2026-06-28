@@ -138,7 +138,9 @@ function FeaturedArticleCard({ article }: { article: FeaturedArticle }) {
       />
       <div className="featured-article__body">
         <span className="featured-article__category">{article.category}</span>
-        <h2 className="featured-article__headline">{article.headline}</h2>
+        <h2 className="featured-article__headline">
+          <a href="#">{article.headline}</a>
+        </h2>
         <p className="featured-article__snippet">{article.snippet}</p>
         <footer className="featured-article__footer">
           <time dateTime="2026-06-06">{article.date}</time>
@@ -154,7 +156,9 @@ function FeaturedArticleCard({ article }: { article: FeaturedArticle }) {
 function LatestArticleCard({ article }: { article: LatestArticle }) {
   return (
     <article className="latest-article">
-      <h2 className="latest-article__headline">{article.headline}</h2>
+      <h2 className="latest-article__headline">
+        <a href="#">{article.headline}</a>
+      </h2>
       <p className="latest-article__snippet">{article.snippet}</p>
       <footer className="latest-article__footer">
         <span className="latest-article__author">
