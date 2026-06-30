@@ -90,6 +90,25 @@ export default function ArticlePage() {
       try {
         const articleData = await getPostById(id);
         setArticle(articleData);
+
+        try {
+          const stored = localStorage.getItem("recentlyViewed");
+          let recent: Array<{ id: string; title: string; content: string; creatorDisplayName: string; imageURL?: string }> = stored ? JSON.parse(stored) : [];
+          recent = recent.filter((item) => item.id !== id);
+          recent.unshift({
+            id: articleData.id,
+            title: articleData.title,
+            content: articleData.content,
+            creatorDisplayName: articleData.creatorDisplayName,
+            imageURL: articleData.imageURL,
+          });
+          recent = recent.slice(0, 5);
+          localStorage.setItem("recentlyViewed", JSON.stringify(recent));
+          window.dispatchEvent(new CustomEvent("recentlyViewedUpdated"));
+        } catch {
+          /* ignore localStorage errors */
+        }
+
         const commentData = await getCommentsByArticleId(id);
         const mapped = commentData.map(
           (c) =>

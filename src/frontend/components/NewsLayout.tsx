@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import { LATEST_ARTICLES, NAV_LINKS } from "../data/mockArticles";
-import type { LatestArticle } from "../data/mockArticles";
+import { NAV_LINKS } from "../data/mockArticles";
+import { getLatestPosts } from "../../services/ArticleService";
+import type { ArticleProps } from "../../models/Article";
 import {
   getCurrentUser,
   doOnAuthStateChange,
@@ -11,14 +12,28 @@ import {
 import "../NewsPage.css";
 
 export function TopNav() {
+  const [searchParams] = useSearchParams();
+  const activeCategory = searchParams.get("category") || "";
+
   return (
     <nav className="top-nav" aria-label="Categories">
       <ul className="top-nav__list">
+        <li>
+          <Link
+            to="/"
+            className={`top-nav__link ${!activeCategory ? "top-nav__link--active" : ""}`}
+          >
+            ALL
+          </Link>
+        </li>
         {NAV_LINKS.map((link) => (
           <li key={link}>
-            <a href="#" className="top-nav__link">
+            <Link
+              to={`/?category=${encodeURIComponent(link)}`}
+              className={`top-nav__link ${activeCategory === link ? "top-nav__link--active" : ""}`}
+            >
               {link}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
@@ -85,16 +100,16 @@ export function SiteHeader() {
   );
 }
 
-function LatestArticleCard({ article }: { article: LatestArticle }) {
+function LatestArticleCard({ article }: { article: ArticleProps }) {
   return (
     <article className="latest-article">
       <h2 className="latest-article__headline">
-        <Link to={`/article/${article.id}`}>{article.headline}</Link>
+        <Link to={`/article/${article.id}`}>{article.title}</Link>
       </h2>
-      <p className="latest-article__snippet">{article.snippet}</p>
+      <p className="latest-article__snippet">{article.content}</p>
       <footer className="latest-article__footer">
         <span className="latest-article__author">
-          by <a href="#">{article.author}</a>
+          by {article.creatorDisplayName || article.creatorId.slice(0, 8)}
         </span>
       </footer>
     </article>
@@ -102,12 +117,84 @@ function LatestArticleCard({ article }: { article: LatestArticle }) {
 }
 
 export function LatestNewsSidebar() {
+  const [latest, setLatest] = useState<ArticleProps[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const data = await getLatestPosts(5);
+        setLatest(data);
+      } catch {
+        setLatest([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetch();
+  }, []);
+
   return (
     <aside className="latest-section" aria-label="Latest news">
       <h2 className="latest-section__title">LATEST NEWS</h2>
       <div className="latest-section__list">
-        {LATEST_ARTICLES.map((article) => (
-          <LatestArticleCard key={article.id} article={article} />
+        {loading ? (
+          <p className="article-status">Loading...</p>
+        ) : latest.length === 0 ? (
+          <p className="article-status">No articles yet.</p>
+        ) : (
+          latest.map((article) => (
+            <LatestArticleCard key={article.id} article={article} />
+          ))
+        )}
+      </div>
+    </aside>
+  );
+}
+
+interface RecentlyViewedItem {
+  id: string;
+  title: string;
+  content: string;
+  creatorDisplayName: string;
+  imageURL?: string;
+}
+
+export function RecentlyViewedSidebar() {
+  const [recent, setRecent] = useState<RecentlyViewedItem[]>([]);
+
+  useEffect(() => {
+    const load = () => {
+      try {
+        const stored = localStorage.getItem("recentlyViewed");
+        if (stored) setRecent(JSON.parse(stored));
+      } catch {
+        setRecent([]);
+      }
+    };
+    load();
+    window.addEventListener("recentlyViewedUpdated", load);
+    return () => window.removeEventListener("recentlyViewedUpdated", load);
+  }, []);
+
+  if (recent.length === 0) return null;
+
+  return (
+    <aside className="latest-section" aria-label="Recently viewed">
+      <h2 className="latest-section__title">RECENTLY VIEWED</h2>
+      <div className="latest-section__list">
+        {recent.map((item) => (
+          <article className="latest-article" key={item.id}>
+            <h2 className="latest-article__headline">
+              <Link to={`/article/${item.id}`}>{item.title}</Link>
+            </h2>
+            <p className="latest-article__snippet">{item.content}</p>
+            <footer className="latest-article__footer">
+              <span className="latest-article__author">
+                by {item.creatorDisplayName}
+              </span>
+            </footer>
+          </article>
         ))}
       </div>
     </aside>

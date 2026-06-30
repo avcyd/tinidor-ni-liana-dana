@@ -100,9 +100,9 @@ function Drafts() {
     setActiveDraft(draft);
     setEditTitle(draft.title);
     setEditContent(draft.content);
-    setEditImageUrl(draft.imageURL);
+    setEditImageUrl(draft.imageURL || "");
     setEditImage(null);
-    setPreview(draft.imageURL);
+    setPreview(draft.imageURL || "");
     setEditCategory(draft.tags?.[0] || "");
   };
 

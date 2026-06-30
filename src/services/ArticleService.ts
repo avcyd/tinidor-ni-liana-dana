@@ -1,4 +1,4 @@
-import {collection, addDoc, getDocs, updateDoc, getDoc, deleteDoc, doc} from 'firebase/firestore';
+import {collection, addDoc, getDocs, updateDoc, getDoc, deleteDoc, doc, query, orderBy, where, limit} from 'firebase/firestore';
 import {db} from './firebase';
 import {validateArticle, transform} from '../models/Article'
 import type {ArticleProps} from '../models/Article'
@@ -31,5 +31,16 @@ export const getPostById = async(id: string):Promise<ArticleProps> => {
 
 export const getAllPosts = async() => {
   const snapshot =  await getDocs(ref);
+  return snapshot.docs.map(doc => transform(doc.id, {...doc.data() as ArticleProps}));
+}
+
+export const getLatestPosts = async(max = 5): Promise<ArticleProps[]> => {
+  const q = query(
+    ref,
+    where("status", "==", "PUBLISHED"),
+    orderBy("createdAt", "desc"),
+    limit(max)
+  );
+  const snapshot = await getDocs(q);
   return snapshot.docs.map(doc => transform(doc.id, {...doc.data() as ArticleProps}));
 }

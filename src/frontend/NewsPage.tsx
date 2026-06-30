@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   LatestNewsSidebar,
   NewsPageShell,
+  RecentlyViewedSidebar,
 } from "./components/NewsLayout";
 import { getAllPosts } from "../services/ArticleService";
 import type { ArticleProps } from "../models/Article";
@@ -54,6 +55,8 @@ function FeaturedArticleCard({ article }: { article: ArticleProps }) {
 export default function NewsPage() {
   const [articles, setArticles] = useState<ArticleProps[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchParams] = useSearchParams();
+  const categoryFilter = searchParams.get("category") || "";
 
   useEffect(() => {
     const fetch = async () => {
@@ -72,21 +75,28 @@ export default function NewsPage() {
     fetch();
   }, []);
 
+  const filteredArticles = categoryFilter
+    ? articles.filter((a) => a.tags?.includes(categoryFilter))
+    : articles;
+
   return (
     <NewsPageShell>
       <main className="news-page__main">
         <section className="featured-section" aria-label="Featured articles">
           {loading ? (
             <p className="article-status">Loading...</p>
-          ) : articles.length === 0 ? (
+          ) : filteredArticles.length === 0 ? (
             <p className="article-status">No articles yet.</p>
           ) : (
-            articles.map((article) => (
+            filteredArticles.map((article) => (
               <FeaturedArticleCard key={article.id} article={article} />
             ))
           )}
         </section>
-        <LatestNewsSidebar />
+        <div>
+          <LatestNewsSidebar />
+          <RecentlyViewedSidebar />
+        </div>
       </main>
     </NewsPageShell>
   );

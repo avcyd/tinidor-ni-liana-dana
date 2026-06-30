@@ -37,8 +37,13 @@
   transition: color 0.15s;
 }
 
-.top-nav__link:hover {
+.top-nav__link:hover,
+.top-nav__link--active {
   color: var(--accent);
+}
+
+.top-nav__link--active {
+  font-weight: 700;
 }
 
 /* ── White container ── */
