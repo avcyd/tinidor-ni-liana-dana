@@ -1,4 +1,4 @@
-import { useState, useEffect, type FormEvent } from "react";
+import { useState, useEffect, type ChangeEvent, type FormEvent} from "react";
 import { Link } from "react-router-dom";
 import { createPost } from "../../services/ArticleService";
 import {
@@ -15,6 +15,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { uploadThumbnail } from "../../services/ImageService";
 
 function CreatePosts() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -24,7 +25,13 @@ function CreatePosts() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [image, setImage] = useState<File | null>(null)
   const [category, setCategory] = useState("");
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if(e.target.files && e.target.files.length > 0)
+      setImage(e.target.files[0]);
+  }
 
   const categories = [
     "celebrity",
@@ -71,11 +78,17 @@ function CreatePosts() {
   ) => {
     e.preventDefault();
     try {
+      let imageUrl = "";
+      if(image){
+        imageUrl = await uploadThumbnail(image);
+      }
+
       await createPost({
         creatorId: currentUserId || "temporary-dev-id",
         creatorDisplayName: currentUser,
         title: title,
         content: content,
+        imageURL: imageUrl,
         tags: category ? [category] : [],
         status: status,
       });
@@ -83,6 +96,7 @@ function CreatePosts() {
       setTitle("");
       setContent("");
       setCategory("");
+      setImage(null);
       setIsMobileMenuOpen(false);
     } catch (e) {
       console.error(`Error processing post operations: ${e}`);
@@ -203,6 +217,17 @@ function CreatePosts() {
                 }}
               />
             </div>
+
+            <div className="auth-field">
+              <label htmlFor="image">Image:</label>
+              <input
+                id="image"
+                type="file"
+                onChange={handleFileChange}
+                disabled={!currentUserId}
+              />
+              {image && <p>Selected: {image.name}</p>}
+              </div>
 
             <div className="auth-field">
               <label htmlFor="category">category: </label>
