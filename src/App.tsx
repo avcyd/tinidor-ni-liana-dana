@@ -15,7 +15,7 @@ function AdminHome() {
   return (
     <>
       <h1>BACKEND TESTING</h1>
-      <p>Defualts: email: john.doe@example.com; password: 1234567890</p>
+      <p>defaults: email: john.doe@example.com; password: 1234567890</p>
       <ul>
         <li>
           <Link to="/add-user">Add User</Link>
@@ -44,11 +44,11 @@ function App() {
       <Route path="/article/:id" element={<ArticlePage />} />
       <Route path="/admin" element={<AdminHome />} />
       <Route path="/add-user" element={<AddUser />} />
-      <Route path="/create-post" element={<ProtectedRoute><CreatePosts /></ProtectedRoute>} />
       <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<ProtectedRoute><JournalistDashboard /></ProtectedRoute>} />
-      <Route path="/drafts" element={<ProtectedRoute><Drafts /></ProtectedRoute>} />
-      <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/create-post" element={<ProtectedRoute allowedRoles={["ADMIN", "JOURNALIST"]}><CreatePosts /></ProtectedRoute>} />
+      <Route path="/dashboard" element={<ProtectedRoute allowedRoles={["ADMIN", "JOURNALIST"]}><JournalistDashboard /></ProtectedRoute>} />
+      <Route path="/drafts" element={<ProtectedRoute allowedRoles={["ADMIN", "JOURNALIST"]}><Drafts /></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute allowedRoles={["ADMIN", "JOURNALIST"]}><Profile /></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

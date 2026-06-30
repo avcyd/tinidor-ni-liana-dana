@@ -1,9 +1,10 @@
 import {serverTimestamp, Timestamp, FieldValue} from "firebase/firestore";
 
+export type roles = 'ADMIN' | 'JOURNALIST' | 'READER';
 export interface UserProps {
   id: string;
   email: string,
-  role: 'ADMIN' | 'JOURNALIST' | 'READER',
+  role: roles,
   displayName: string,
   createdAt: Timestamp | FieldValue,
   modifiedAt: Timestamp | FieldValue,
