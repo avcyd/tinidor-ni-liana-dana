@@ -32,8 +32,8 @@ export const validateArticle = (data:Partial<ArticleProps>): Partial<ArticleProp
   if(!data.title?.trim()) throw new Error(`REQUIRED: Missing title`);
   if(!data.content?.trim()) throw new Error(`REQUIRED: Missing content`);
 
-  if(data.title.length <= TITLE_MAX) throw new Error(`Title too long please limit to ${TITLE_MAX} characters`)
-  if(data.content.length <= CONTENT_MAX) throw new Error(`Title too long please limit to ${CONTENT_MAX} characters`)
+  if(data.title.length >= TITLE_MAX) throw new Error(`Title too long please limit to ${TITLE_MAX} characters`)
+  if(data.content.length >= CONTENT_MAX) throw new Error(`Title too long please limit to ${CONTENT_MAX} characters`)
 
   return{
     creatorId: data.creatorId,

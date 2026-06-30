@@ -22,7 +22,7 @@ export const transform = (id: string, data:Omit<CommentProps, "id">):CommentProp
   }
 }
 
-export const createComment = (data:Partial<CommentProps>): Partial<CommentProps> => {
+export const validateComment = (data:Partial<CommentProps>): Partial<CommentProps> => {
   if(!data.articleId) throw new Error(`REQUIRED: Missing articleId`);
   if(!data.userId) throw new Error(`REQUIRED: Missing UserId`);
   if(!data.creatorDisplayName) throw new Error(`REQUIRED: creatorDisplayName`);

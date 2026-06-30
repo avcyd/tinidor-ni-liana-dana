@@ -1,12 +1,12 @@
 import { collection, doc, addDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore'
 import { db } from './firebase'
-import { createComment } from '../models/Comment'
+import { validateComment } from '../models/Comment'
 import type {CommentProps} from '../models/Comment'
 
 const ref = collection(db, "comments")
 
 export const addComment = async (data: Partial<CommentProps>) => {
-  const complete = createComment(data);
+  const complete = validateComment(data);
   await addDoc(ref, complete);
 }
 

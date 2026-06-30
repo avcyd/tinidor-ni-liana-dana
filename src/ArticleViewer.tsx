@@ -4,15 +4,21 @@ import { getCurrentUser, doOnAuthStateChange } from './services/AuthService'
 import { addComment } from './services/CommentService'
 import type { ArticleProps } from './models/Article'
 import './App.css'
+import { getUserById } from './services/UserService'
 
 function ArticleViewer() {
   const [articles, setArticles] = useState<ArticleProps[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [currentUserId, setCurrentUserId] = useState('')
+  const [currentUser, setCurrentUser] = useState('');
   const [commentInputs, setCommentInputs] = useState<Record<string, string>>({})
 
-  doOnAuthStateChange(() => setCurrentUserId(getCurrentUser()?.uid || ''))
+  doOnAuthStateChange(async() => {
+    setCurrentUserId(getCurrentUser()?.uid || '');
+    const userName = await getUserById(currentUserId);
+    setCurrentUser(userName.displayName);
+  })
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -43,7 +49,7 @@ function ArticleViewer() {
     const content = commentInputs[articleId]?.trim()
     if (!content || !currentUserId) return
     try {
-      await addComment({ articleId, userId: currentUserId, content })
+      await addComment({ articleId, userId: currentUserId, content, creatorDisplayName: currentUser })
       console.log(`Comment added to article ${articleId}`)
       setCommentInputs(prev => ({ ...prev, [articleId]: '' }))
     } catch (e) {
