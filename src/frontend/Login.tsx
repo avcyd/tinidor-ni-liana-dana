@@ -83,58 +83,84 @@ function Login() {
 
           {message && <FormMessage text={message.text} type={message.type} />}
 
-          {currentUser ? (
-            <>
-              <p className="auth-form__welcome">Welcome, {currentUser}</p>
-              <button
-                type="button"
-                className="auth-form__submit"
-                onClick={logout}
-              >
-                Log Out
-              </button>
-            </>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <div className="auth-field">
-                {/* Changed back to Email Address */}
-                <label htmlFor="email">Email Address</label>
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                  required
-                  disabled={currentUser ? true : false}
-                />
+          <div className="auth-form__body">
+            <div className="auth-form__main">
+              {currentUser ? (
+                <>
+                  <p className="auth-form__welcome">Welcome, {currentUser}</p>
+                  <button
+                    type="button"
+                    className="auth-form__submit"
+                    onClick={logout}
+                  >
+                    Log Out
+                  </button>
+                </>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <div className="auth-field">
+                    <label htmlFor="email">Email Address</label>
+                    <input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      autoComplete="email"
+                      required
+                      disabled={currentUser ? true : false}
+                    />
+                  </div>
+
+                  <div className="auth-field">
+                    <label htmlFor="password">password: </label>
+                    <input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="current-password"
+                      required
+                      disabled={currentUser ? true : false}
+                    />
+                  </div>
+
+                  <button type="submit" className="auth-form__submit">
+                    Log In
+                  </button>
+                </form>
+              )}
+
+              {!currentUser && (
+                <p className="auth-form__footer">
+                  Don&apos;t have an account? <Link to="/add-user">Register</Link>
+                </p>
+              )}
+            </div>
+
+            <div className="auth-form__guidelines">
+              <p className="auth-form__guidelines-title">Registration Requirements</p>
+              <div className="auth-form__guidelines-section">
+                <p className="auth-form__guidelines-heading">Display Name</p>
+                <ul className="auth-form__guidelines-list">
+                  <li>Optional — defaults to your email username</li>
+                </ul>
               </div>
-
-              <div className="auth-field">
-                <label htmlFor="password">password: </label>
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
-                  required
-                  disabled={currentUser ? true : false}
-                />
+              <div className="auth-form__guidelines-section">
+                <p className="auth-form__guidelines-heading">Email</p>
+                <ul className="auth-form__guidelines-list">
+                  <li>Must be a valid email with a domain (e.g., name@domain.com)</li>
+                  <li>Max 254 characters</li>
+                </ul>
               </div>
-
-              {/* Changed back to Log In */}
-              <button type="submit" className="auth-form__submit">
-                Log In
-              </button>
-            </form>
-          )}
-
-          {!currentUser && (
-            <p className="auth-form__footer">
-              Don&apos;t have an account? <Link to="/add-user">Register</Link>
-            </p>
-          )}
+              <div className="auth-form__guidelines-section">
+                <p className="auth-form__guidelines-heading">Password</p>
+                <ul className="auth-form__guidelines-list">
+                  <li>At least 8 characters</li>
+                  <li>Max 128 characters</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

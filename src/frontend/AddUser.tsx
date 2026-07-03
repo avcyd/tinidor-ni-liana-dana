@@ -80,81 +80,85 @@ function AddUser() {
 
           {message && <FormMessage text={message.text} type={message.type} />}
 
-          <form onSubmit={handleSubmit}>
-            <div className="auth-field">
-              <label htmlFor="displayName">display name: </label>
-              <input
-                id="displayName"
-                type="text"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                autoComplete="name"
-                required
-                disabled={submitting}
-              />
-              <p className="auth-field__hint">Optional — defaults to your email username</p>
+          <div className="auth-form__body">
+            <div className="auth-form__main">
+              <form onSubmit={handleSubmit}>
+                <div className="auth-field">
+                  <label htmlFor="displayName">display name: </label>
+                  <input
+                    id="displayName"
+                    type="text"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    autoComplete="name"
+                    required
+                    disabled={submitting}
+                  />
+                  <p className="auth-field__hint">Optional — defaults to your email username</p>
+                </div>
+
+                <div className="auth-field">
+                  <label htmlFor="email">email address: </label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                    required
+                    disabled={submitting}
+                  />
+                  <p className="auth-field__hint">Must be a valid email address</p>
+                </div>
+
+                <div className="auth-field">
+                  <label htmlFor="password">Password: </label>
+                  <input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="new-password"
+                    required
+                    disabled={submitting}
+                  />
+                  <p className="auth-field__hint">At least 6 characters</p>
+                </div>
+
+                <button type="submit" className="auth-form__submit" disabled={submitting}>
+                  {submitting ? "Submitting..." : "Submit"}
+                </button>
+              </form>
+
+              <p className="auth-form__footer">
+                Already have an account? <Link to="/login">Login</Link>
+              </p>
             </div>
 
-            <div className="auth-field">
-              <label htmlFor="email">email address: </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                required
-                disabled={submitting}
-              />
-              <p className="auth-field__hint">Must be a valid email address</p>
-            </div>
-
-            <div className="auth-field">
-              <label htmlFor="password">Password: </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="new-password"
-                required
-                disabled={submitting}
-              />
-              <p className="auth-field__hint">At least 6 characters</p>
-            </div>
-
-            <button type="submit" className="auth-form__submit" disabled={submitting}>
-              {submitting ? "Submitting..." : "Submit"}
-            </button>
-          </form>
-
-          <div className="auth-form__guidelines">
-            <p className="auth-form__guidelines-title">Platform Guidelines</p>
-            <div className="auth-form__guidelines-section">
-              <p className="auth-form__guidelines-heading">📝 Articles (for Journalists)</p>
-              <ul className="auth-form__guidelines-list">
-                <li>Title: max 50 characters</li>
-                <li>Content: max 1,000 characters</li>
-                <li>Status: Published or Draft</li>
-              </ul>
-            </div>
-            <div className="auth-form__guidelines-section">
-              <p className="auth-form__guidelines-heading">💬 Comments (for all users)</p>
-              <ul className="auth-form__guidelines-list">
-                <li>Content: max 500 characters</li>
-              </ul>
-            </div>
-            <div className="auth-form__guidelines-section">
-              <p className="auth-form__guidelines-heading">👤 Your Account</p>
-              <ul className="auth-form__guidelines-list">
-                <li>Role: Reader (can browse and comment)</li>
-              </ul>
+            <div className="auth-form__guidelines">
+              <p className="auth-form__guidelines-title">Registration Requirements</p>
+              <div className="auth-form__guidelines-section">
+                <p className="auth-form__guidelines-heading">Display Name</p>
+                <ul className="auth-form__guidelines-list">
+                  <li>Optional — defaults to your email username</li>
+                </ul>
+              </div>
+              <div className="auth-form__guidelines-section">
+                <p className="auth-form__guidelines-heading">Email</p>
+                <ul className="auth-form__guidelines-list">
+                  <li>Must be a valid email with a domain (e.g., name@domain.com)</li>
+                  <li>Max 254 characters</li>
+                </ul>
+              </div>
+              <div className="auth-form__guidelines-section">
+                <p className="auth-form__guidelines-heading">Password</p>
+                <ul className="auth-form__guidelines-list">
+                  <li>At least 8 characters</li>
+                  <li>Max 128 characters</li>
+                </ul>
+              </div>
             </div>
           </div>
-
-          <p className="auth-form__footer">
-            Already have an account? <Link to="/login">Login</Link>
-          </p>
         </div>
       </div>
     </div>

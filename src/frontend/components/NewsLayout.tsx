@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { NAV_LINKS } from "../data/mockArticles";
 import { getLatestPosts } from "../../services/ArticleService";
 import type { ArticleProps } from "../../models/Article";
+import { getUserById } from "../../services/UserService";
 import {
   getCurrentUser,
   doOnAuthStateChange,
@@ -43,14 +44,24 @@ export function TopNav() {
 
 export function SiteHeader() {
   const [currentUser, setCurrentUser] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const [logoutMsg, setLogoutMsg] = useState("");
 
   useEffect(() => {
     const unsub = doOnAuthStateChange(async (user) => {
       if (!user) {
         setCurrentUser("");
+        setUserRole("");
         return;
       }
-      setCurrentUser(getCurrentUser()?.uid || "");
+      const uid = getCurrentUser()?.uid || "";
+      setCurrentUser(uid);
+      try {
+        const userData = await getUserById(uid);
+        setUserRole(userData.role);
+      } catch {
+        setUserRole("");
+      }
     });
     return () => {
       if (typeof unsub === "function") unsub();
@@ -60,43 +71,54 @@ export function SiteHeader() {
   const handleLogout = async () => {
     await logout();
     setCurrentUser("");
+    setLogoutMsg("Logged out successfully.");
+    setTimeout(() => setLogoutMsg(""), 3000);
   };
 
   return (
-    <header className="site-header">
-      <h1 className="site-header__logo">
-        <Link to="/">WEBSITENAME</Link>
-      </h1>
-      <div className="site-header__search">
-        <input
-          type="search"
-          className="site-header__search-input"
-          placeholder="Search..."
-          aria-label="Search articles"
-        />
-      </div>
-      <div className="site-header__auth">
-        {currentUser ? (
-          <>
-            <Link to="/dashboard" className="auth-btn auth-btn--register">
-              Dashboard
-            </Link>
-            <span className="auth-btn auth-btn--login" onClick={handleLogout}>
-              Log Out
-            </span>
-          </>
-        ) : (
-          <>
-            <Link to="/add-user" className="auth-btn auth-btn--register">
-              Register
-            </Link>
-            <Link to="/login" className="auth-btn auth-btn--login">
-              Login
-            </Link>
-          </>
-        )}
-      </div>
-    </header>
+    <>
+      {logoutMsg && (
+        <div className="notification-banner notification-banner--success" role="status">
+          <p>{logoutMsg}</p>
+        </div>
+      )}
+      <header className="site-header">
+        <h1 className="site-header__logo">
+          <Link to="/">WEBSITENAME</Link>
+        </h1>
+        <div className="site-header__search">
+          <input
+            type="search"
+            className="site-header__search-input"
+            placeholder="Search..."
+            aria-label="Search articles"
+          />
+        </div>
+        <div className="site-header__auth">
+          {currentUser ? (
+            <>
+              {userRole === "JOURNALIST" && (
+                <Link to="/dashboard" className="auth-btn auth-btn--register">
+                  Dashboard
+                </Link>
+              )}
+              <span className="auth-btn auth-btn--login" onClick={handleLogout}>
+                Log Out
+              </span>
+            </>
+          ) : (
+            <>
+              <Link to="/add-user" className="auth-btn auth-btn--register">
+                Register
+              </Link>
+              <Link to="/login" className="auth-btn auth-btn--login">
+                Login
+              </Link>
+            </>
+          )}
+        </div>
+      </header>
+    </>
   );
 }
 

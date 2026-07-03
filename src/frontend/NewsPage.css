@@ -105,6 +105,10 @@
   color: var(--subtext);
 }
 
+.site-header {
+  position: relative;
+}
+
 .site-header__auth {
   display: inline-flex;
   align-items: stretch;
@@ -114,6 +118,33 @@
   padding: 0;
   margin: 0;
   background: #ffffff;
+}
+
+.notification-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1001;
+  padding: 0.667rem 1.333rem;
+  text-align: center;
+  font-size: 0.889rem;
+  animation: notifFadeOut 3s ease forwards;
+}
+
+.notification-banner--success {
+  background: #e6f7e6;
+  color: #1a7d1a;
+  border-bottom: 1px solid #b7e4b7;
+}
+
+.notification-banner p {
+  margin: 0;
+}
+
+@keyframes notifFadeOut {
+  0%, 60% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .site-header__auth .auth-btn {
