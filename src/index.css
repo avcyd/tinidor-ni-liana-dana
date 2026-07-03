@@ -88,3 +88,19 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.connection-banner {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff3cd;
+  color: #856404;
+  border-bottom: 1px solid #ffc107;
+  padding: 0.667rem 1.333rem;
+  text-align: center;
+  font-size: 0.889rem;
+}
+
+.connection-banner p {
+  margin: 0;
+}

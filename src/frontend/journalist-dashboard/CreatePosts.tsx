@@ -110,7 +110,7 @@ function CreatePosts() {
       if(fileInputRef.current) fileInputRef.current.value = "";
       setIsMobileMenuOpen(false);
     } catch (e) {
-      console.error(`Error processing post operations: ${e}`);
+      console.error(`Failed to save post: ${e}`);
     }
   };
 

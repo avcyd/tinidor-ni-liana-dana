@@ -158,7 +158,7 @@ function Drafts() {
 
       handleReturnToFeed();
     } catch (err) {
-      console.error(`Error processing action: ${err}`);
+      console.error(`Failed to process draft action:`, err);
     }
   };
 

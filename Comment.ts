@@ -12,8 +12,8 @@ interface ArticleProps {
 }
 
 export const transform = (uid: string, data:Omit<ArticleProps, "uid">):ArticleProps => {
-  if(!uid) throw new Error(`REQUIRED: Missing uid`);
-  if(!data.createdAt) throw new Error(`REQUIRED missing createdAt`);
+  if(!uid) throw new Error(`Article ID is missing.`);
+  if(!data.createdAt) throw new Error(`Article creation date is missing.`);
 
   return {
     uid: uid,
@@ -22,8 +22,8 @@ export const transform = (uid: string, data:Omit<ArticleProps, "uid">):ArticlePr
 }
 
 export const createUser = (data:Partial<ArticleProps>) => {
-  if(!data.title?.trim()) throw new Error(`REQUIRED: Missing title`);
-  if(!data.content?.trim()) throw new Error(`REQUIRED: Missing content`);
+  if(!data.title?.trim()) throw new Error(`Please enter a title.`);
+  if(!data.content?.trim()) throw new Error(`Please enter the content.`);
 
   return{
     title: data.title,

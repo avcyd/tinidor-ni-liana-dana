@@ -7,11 +7,13 @@ import {
   logout,
 } from "../services/AuthService";
 import { getUserById } from "../services/UserService";
+import FormMessage from "./components/FormMessage";
 import "./css/Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
   const [currentUser, setCurrentUser] = useState("");
   const navigate = useNavigate();
 
@@ -32,12 +34,13 @@ function Login() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setMessage(null);
     try {
       await login(email, password);
       console.log(`Success welcome ${getCurrentUser()?.uid}`);
       navigate("/");
     } catch {
-      alert(`Invalid Username or Password`);
+      setMessage({ text: "Invalid email or password", type: "error" });
     }
   };
 
@@ -77,6 +80,8 @@ function Login() {
         <div className="auth-form">
           <h1 className="auth-form__title">Login</h1>
           <p className="auth-form__subtitle">Sign In To Your Account</p>
+
+          {message && <FormMessage text={message.text} type={message.type} />}
 
           {currentUser ? (
             <>

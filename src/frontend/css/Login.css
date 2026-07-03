@@ -172,6 +172,55 @@
   color: #c41e1e;
 }
 
+.auth-field__hint {
+  font-family: var(--body);
+  font-size: 0.75rem;
+  color: #888;
+  margin: 4px 0 0;
+}
+
+.auth-form__guidelines {
+  margin-top: 40px;
+  padding: 20px;
+  background: #f8f8f8;
+  border-radius: 6px;
+}
+
+.auth-form__guidelines-title {
+  font-family: var(--heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+  color: #000;
+}
+
+.auth-form__guidelines-section {
+  margin-bottom: 14px;
+}
+
+.auth-form__guidelines-section:last-child {
+  margin-bottom: 0;
+}
+
+.auth-form__guidelines-heading {
+  font-family: var(--body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: #333;
+}
+
+.auth-form__guidelines-list {
+  margin: 0;
+  padding-left: 18px;
+  font-family: var(--body);
+  font-size: 0.78rem;
+  color: #666;
+  line-height: 1.7;
+}
+
 .auth-form__submit {
   display: block;
   margin-top: 12px;

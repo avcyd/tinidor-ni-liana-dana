@@ -16,7 +16,7 @@ export async function setUser(data: Partial<UserProps>, password: string): Promi
     return id;
 
   }catch(e){
-    throw new Error(`Error ${e}, inserting ${JSON.stringify(validated)}`)
+    throw e
   }
 }
 

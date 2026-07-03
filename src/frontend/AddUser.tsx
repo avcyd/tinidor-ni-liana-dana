@@ -2,6 +2,7 @@ import { useState, useEffect, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setUser } from "../services/UserService";
 import { getCurrentUser } from "../services/AuthService";
+import FormMessage from "./components/FormMessage";
 import "./css/Login.css";
 
 function AddUser() {
@@ -77,11 +78,7 @@ function AddUser() {
           <h1 className="auth-form__title">Register</h1>
           <p className="auth-form__subtitle">Create Your Account</p>
 
-          {message && (
-            <p className={`auth-form__message auth-form__message--${message.type}`}>
-              {message.text}
-            </p>
-          )}
+          {message && <FormMessage text={message.text} type={message.type} />}
 
           <form onSubmit={handleSubmit}>
             <div className="auth-field">
@@ -95,6 +92,7 @@ function AddUser() {
                 required
                 disabled={submitting}
               />
+              <p className="auth-field__hint">Optional — defaults to your email username</p>
             </div>
 
             <div className="auth-field">
@@ -108,6 +106,7 @@ function AddUser() {
                 required
                 disabled={submitting}
               />
+              <p className="auth-field__hint">Must be a valid email address</p>
             </div>
 
             <div className="auth-field">
@@ -121,12 +120,37 @@ function AddUser() {
                 required
                 disabled={submitting}
               />
+              <p className="auth-field__hint">At least 6 characters</p>
             </div>
 
             <button type="submit" className="auth-form__submit" disabled={submitting}>
               {submitting ? "Submitting..." : "Submit"}
             </button>
           </form>
+
+          <div className="auth-form__guidelines">
+            <p className="auth-form__guidelines-title">Platform Guidelines</p>
+            <div className="auth-form__guidelines-section">
+              <p className="auth-form__guidelines-heading">📝 Articles (for Journalists)</p>
+              <ul className="auth-form__guidelines-list">
+                <li>Title: max 50 characters</li>
+                <li>Content: max 1,000 characters</li>
+                <li>Status: Published or Draft</li>
+              </ul>
+            </div>
+            <div className="auth-form__guidelines-section">
+              <p className="auth-form__guidelines-heading">💬 Comments (for all users)</p>
+              <ul className="auth-form__guidelines-list">
+                <li>Content: max 500 characters</li>
+              </ul>
+            </div>
+            <div className="auth-form__guidelines-section">
+              <p className="auth-form__guidelines-heading">👤 Your Account</p>
+              <ul className="auth-form__guidelines-list">
+                <li>Role: Reader (can browse and comment)</li>
+              </ul>
+            </div>
+          </div>
 
           <p className="auth-form__footer">
             Already have an account? <Link to="/login">Login</Link>

@@ -11,9 +11,9 @@ export interface UserProps {
 }
 
 export const transform = (id: string, data:Omit<UserProps, "id">):UserProps => {
-  if(!id) throw new Error(`REQUIRED: Missing id`);
-  if(!data.createdAt) throw new Error(`REQUIRED: missing createdAt`);
-  if(!data.modifiedAt) throw new Error(`REQUIRED: missing modifiedAt`);
+  if(!id) throw new Error(`User ID is missing.`);
+  if(!data.createdAt) throw new Error(`User creation date is missing.`);
+  if(!data.modifiedAt) throw new Error(`User modification date is missing.`);
 
   return {
     id: id,
@@ -22,7 +22,7 @@ export const transform = (id: string, data:Omit<UserProps, "id">):UserProps => {
 }
 
 export const createUser = (data:Partial<UserProps>): Partial<UserProps> => {
-  if(!data.email?.trim()) throw new Error(`REQUIRED: Missing email`);
+  if(!data.email?.trim()) throw new Error(`Please enter a valid email address.`);
 
   return{
     email: data.email,

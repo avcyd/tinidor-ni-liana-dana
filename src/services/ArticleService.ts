@@ -11,7 +11,7 @@ export const createPost = async(data: Partial<ArticleProps>):Promise<void> => {
   try{
     await addDoc(ref, completeArticle);
   }catch(e){
-    throw new Error(`Error ${e}`);
+    throw e;
   }
 }
 

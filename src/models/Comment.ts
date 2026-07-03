@@ -13,8 +13,8 @@ export interface CommentProps {
 }
 
 export const transform = (id: string, data:Omit<CommentProps, "id">):CommentProps => {
-  if(!id) throw new Error(`REQUIRED: Missing id`);
-  if(!data.createdAt) throw new Error(`REQUIRED: missing createdAt`);
+  if(!id) throw new Error(`Comment ID is missing.`);
+  if(!data.createdAt) throw new Error(`Comment creation date is missing.`);
 
   return {
     id: id,
@@ -25,11 +25,11 @@ export const transform = (id: string, data:Omit<CommentProps, "id">):CommentProp
 const CONTENT_MAX = 500;
 
 export const validateComment = (data:Partial<CommentProps>): Partial<CommentProps> => {
-  if(!data.articleId) throw new Error(`REQUIRED: Missing articleId`);
-  if(!data.userId) throw new Error(`REQUIRED: Missing UserId`);
-  if(!data.creatorDisplayName) throw new Error(`REQUIRED: creatorDisplayName`);
-  if(!data.content?.trim()) throw new Error(`REQUIRED: Missing content`);
-  if(data.content.length >= CONTENT_MAX) throw new Error(`Comment too long, please limit to ${CONTENT_MAX} characters`);
+  if(!data.articleId) throw new Error(`Article reference is missing.`);
+  if(!data.userId) throw new Error(`User reference is missing.`);
+  if(!data.creatorDisplayName) throw new Error(`Your display name is required.`);
+  if(!data.content?.trim()) throw new Error(`Please enter a comment.`);
+  if(data.content.length >= CONTENT_MAX) throw new Error(`Comment must be ${CONTENT_MAX} characters or fewer.`);
 
   return{
     articleId: data.articleId,

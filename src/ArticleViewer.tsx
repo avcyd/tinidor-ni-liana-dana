@@ -26,7 +26,7 @@ function ArticleViewer() {
         const data = await getAllPosts()
         setArticles(data as ArticleProps[])
       } catch (e) {
-        setError(`Failed to load articles: ${e}`)
+        setError(`Failed to load articles. Please try again.`)
       } finally {
         setLoading(false)
       }
@@ -53,7 +53,7 @@ function ArticleViewer() {
       console.log(`Comment added to article ${articleId}`)
       setCommentInputs(prev => ({ ...prev, [articleId]: '' }))
     } catch (e) {
-      console.error(`Failed to add comment: ${e}`)
+      console.error(`Failed to add comment:`, e)
     }
   }
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import InitialAvatar from "./components/InitialAvatar";
+import FormMessage from "./components/FormMessage";
 import { LatestNewsSidebar, NewsPageShell } from "./components/NewsLayout";
 import { getPostById } from "../services/ArticleService";
 import { getCommentsByArticleId, addComment } from "../services/CommentService";
@@ -156,7 +157,7 @@ export default function ArticlePage() {
       );
       setComments(mapped);
     } catch (e) {
-      setCommentMsg({ text: `Failed to post comment: ${e instanceof Error ? e.message : "Unknown error"}`, type: "error" });
+      setCommentMsg({ text: e instanceof Error ? e.message : "Failed to post comment. Please try again.", type: "error" });
     } finally {
       setSubmittingComment(false);
     }
@@ -223,11 +224,7 @@ export default function ArticlePage() {
                   ))
               )}
             </div>
-            {commentMsg && (
-              <p className={`auth-form__message auth-form__message--${commentMsg.type}`}>
-                {commentMsg.text}
-              </p>
-            )}
+            {commentMsg && <FormMessage text={commentMsg.text} type={commentMsg.type} />}
             <form className="comment-input" onSubmit={handleCommentSubmit}>
               <InitialAvatar
                 name={currentDisplayName || "?"}

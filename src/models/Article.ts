@@ -18,8 +18,8 @@ export interface ArticleProps {
 }
 
 export const transform = (id: string, data:Omit<ArticleProps, "id">):ArticleProps => {
-  if(!id) throw new Error(`REQUIRED: Missing id`);
-  if(!data.createdAt) throw new Error(`REQUIRED: missing createdAt`);
+  if(!id) throw new Error(`Article ID is missing.`);
+  if(!data.createdAt) throw new Error(`Article creation date is missing.`);
 
   return {
     id: id,
@@ -28,12 +28,12 @@ export const transform = (id: string, data:Omit<ArticleProps, "id">):ArticleProp
 }
 
 export const validateArticle = (data:Partial<ArticleProps>): Partial<ArticleProps> => {
-  if(!data.creatorDisplayName) throw new Error(`REQUIRED: creatorDisplayName`);
-  if(!data.title?.trim()) throw new Error(`REQUIRED: Missing title`);
-  if(!data.content?.trim()) throw new Error(`REQUIRED: Missing content`);
+  if(!data.creatorDisplayName) throw new Error(`Your display name is required.`);
+  if(!data.title?.trim()) throw new Error(`Please enter a title for your article.`);
+  if(!data.content?.trim()) throw new Error(`Please enter the article content.`);
 
-  if(data.title.length >= TITLE_MAX) throw new Error(`Title too long please limit to ${TITLE_MAX} characters`)
-  if(data.content.length >= CONTENT_MAX) throw new Error(`Title too long please limit to ${CONTENT_MAX} characters`)
+  if(data.title.length >= TITLE_MAX) throw new Error(`Title must be ${TITLE_MAX} characters or fewer.`);
+  if(data.content.length >= CONTENT_MAX) throw new Error(`Content must be ${CONTENT_MAX} characters or fewer.`);
 
   return{
     creatorId: data.creatorId,
