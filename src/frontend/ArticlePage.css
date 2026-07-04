@@ -69,7 +69,7 @@
 .article-detail__text {
   color: var(--subtext);
   line-height: 155%;
-  font-size: 0.889rem;
+  font-size: 1rem;
   margin: 0;
 }
 
