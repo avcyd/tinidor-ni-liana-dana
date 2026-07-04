@@ -22,6 +22,7 @@ export async function setUser(data: Partial<UserProps>, password: string): Promi
 
 export async function getUserById(id:string):Promise<UserProps> {
   const snapshot = await getDoc(doc(db, "users", id));
+  if (!snapshot.exists()) throw new Error(`User with ID ${id} not found.`);
   return transform(snapshot.id, {...snapshot.data() as UserProps})
 }
 

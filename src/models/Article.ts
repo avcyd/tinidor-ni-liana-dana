@@ -28,6 +28,7 @@ export const transform = (id: string, data:Omit<ArticleProps, "id">):ArticleProp
 }
 
 export const validateArticle = (data:Partial<ArticleProps>): Partial<ArticleProps> => {
+  if(!data.creatorId) throw new Error(`Creator reference is missing.`);
   if(!data.creatorDisplayName) throw new Error(`Your display name is required.`);
   if(!data.title?.trim()) throw new Error(`Please enter a title for your article.`);
   if(!data.content?.trim()) throw new Error(`Please enter the article content.`);
@@ -40,9 +41,9 @@ export const validateArticle = (data:Partial<ArticleProps>): Partial<ArticleProp
     creatorDisplayName: data.creatorDisplayName,
     title: data.title,
     content: data.content,
-    tags: data.tags,
+    tags: data.tags || [],
     status: data.status || 'DRAFT',
-    imageURL: data.imageURL,
+    ...(data.imageURL ? { imageURL: data.imageURL } : {}),
     createdAt: data.createdAt || serverTimestamp(),
     modifiedAt: serverTimestamp()
   }

@@ -26,6 +26,7 @@ export const updatePostById = async(id: string, data: Partial<ArticleProps>):Pro
 
 export const getPostById = async(id: string):Promise<ArticleProps> => {
   const snapshot = await getDoc(doc(db, "articles", id));
+  if (!snapshot.exists()) throw new Error(`Article with ID ${id} not found.`);
   return transform(snapshot.id, {...snapshot.data() as ArticleProps})
 }
 

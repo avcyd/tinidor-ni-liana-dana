@@ -35,7 +35,7 @@ export const validateComment = (data:Partial<CommentProps>): Partial<CommentProp
     articleId: data.articleId,
     userId: data.userId,
     creatorDisplayName: data.creatorDisplayName || "",
-    replyTargetId: data.replyTargetId || undefined, 
+    ...(data.replyTargetId ? { replyTargetId: data.replyTargetId } : {}),
     content: data.content,
     modifiedAt: serverTimestamp(),
     createdAt: serverTimestamp()
