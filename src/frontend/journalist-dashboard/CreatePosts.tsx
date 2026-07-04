@@ -1,4 +1,10 @@
-import { useState, useEffect, type ChangeEvent, type FormEvent, useRef} from "react";
+import {
+  useState,
+  useEffect,
+  type ChangeEvent,
+  type FormEvent,
+  useRef,
+} from "react";
 import { Link } from "react-router-dom";
 import { createPost } from "../../services/ArticleService";
 import {
@@ -25,15 +31,15 @@ function CreatePosts() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState<File | null>(null)
+  const [image, setImage] = useState<File | null>(null);
   const [category, setCategory] = useState("");
 
   const [preview, setPreview] = useState("");
 
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = async(e: ChangeEvent<HTMLInputElement>) => {
-    if(e.target.files && e.target.files.length > 0){
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       const compressed = await compressImage(file);
       const fileURL = URL.createObjectURL(compressed);
@@ -41,7 +47,7 @@ function CreatePosts() {
       setImage(file);
       setPreview(fileURL);
     }
-  }
+  };
 
   const categories = [
     "celebrity",
@@ -89,7 +95,7 @@ function CreatePosts() {
     e.preventDefault();
     try {
       let imageUrl = "";
-      if(image){
+      if (image) {
         imageUrl = await uploadThumbnail(image);
       }
 
@@ -107,7 +113,7 @@ function CreatePosts() {
       setContent("");
       setCategory("");
       setImage(null);
-      if(fileInputRef.current) fileInputRef.current.value = "";
+      if (fileInputRef.current) fileInputRef.current.value = "";
       setIsMobileMenuOpen(false);
     } catch (e) {
       console.error(`Failed to save post: ${e}`);
@@ -118,7 +124,7 @@ function CreatePosts() {
     <div className="dashboard-page">
       {" "}
       <header className="dashboard-header-block">
-        <p className="header-text">WebsiteName</p>
+        <p className="header-text">The Culture Feed</p>
         <button
           className="hamburger-trigger"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -238,8 +244,8 @@ function CreatePosts() {
                 onChange={handleFileChange}
                 disabled={!currentUserId}
               />
-              { preview && <img src={preview} alt="" /> }
-              </div>
+              {preview && <img src={preview} alt="" />}
+            </div>
 
             <div className="auth-field">
               <label htmlFor="category">category: </label>

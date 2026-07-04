@@ -103,7 +103,7 @@ export function SiteHeader() {
       )}
       <header className="site-header">
         <h1 className="site-header__logo">
-          <Link to="/">WEBSITENAME</Link>
+          <Link to="/">The Culture Feed</Link>
         </h1>
         <div className="site-header__search">
           <input
