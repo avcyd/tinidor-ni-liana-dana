@@ -29,7 +29,7 @@
 
 .top-nav__link {
   font-family: var(--body);
-  font-size: 0.778rem;
+  font-size: 1rem;
   font-weight: 400;
   letter-spacing: 0.03em;
   text-transform: uppercase;
