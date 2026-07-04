@@ -9,7 +9,10 @@ function AddUser() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
+  const [message, setMessage] = useState<{
+    text: string;
+    type: "success" | "error";
+  } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
@@ -24,10 +27,7 @@ function AddUser() {
     setMessage(null);
     setSubmitting(true);
     try {
-      await setUser(
-        { email: email, displayName: displayName },
-        password,
-      );
+      await setUser({ email: email, displayName: displayName }, password);
       setEmail("");
       setPassword("");
       setDisplayName("");
@@ -46,7 +46,7 @@ function AddUser() {
       <div className="auth-page__image">
         <div className="auth-page__brand-wrap">
           <div className="auth-page__brand">
-            <h2 className="auth-page__brand-title">WebsiteName</h2>
+            <h2 className="auth-page__brand-title">The Culture Feed</h2>
             <p className="auth-page__brand-tagline">Stories Worth Sharing</p>
             <p className="auth-page__brand-copy">
               Write, edit, and publish your work from one place.
@@ -94,7 +94,9 @@ function AddUser() {
                     required
                     disabled={submitting}
                   />
-                  <p className="auth-field__hint">Optional — defaults to your email username</p>
+                  <p className="auth-field__hint">
+                    Optional — defaults to your email username
+                  </p>
                 </div>
 
                 <div className="auth-field">
@@ -108,7 +110,9 @@ function AddUser() {
                     required
                     disabled={submitting}
                   />
-                  <p className="auth-field__hint">Must be a valid email address</p>
+                  <p className="auth-field__hint">
+                    Must be a valid email address
+                  </p>
                 </div>
 
                 <div className="auth-field">
@@ -125,7 +129,11 @@ function AddUser() {
                   <p className="auth-field__hint">At least 6 characters</p>
                 </div>
 
-                <button type="submit" className="auth-form__submit" disabled={submitting}>
+                <button
+                  type="submit"
+                  className="auth-form__submit"
+                  disabled={submitting}
+                >
                   {submitting ? "Submitting..." : "Submit"}
                 </button>
               </form>
@@ -136,7 +144,9 @@ function AddUser() {
             </div>
 
             <div className="auth-form__guidelines">
-              <p className="auth-form__guidelines-title">Registration Requirements</p>
+              <p className="auth-form__guidelines-title">
+                Registration Requirements
+              </p>
               <div className="auth-form__guidelines-section">
                 <p className="auth-form__guidelines-heading">Display Name</p>
                 <ul className="auth-form__guidelines-list">
@@ -146,7 +156,9 @@ function AddUser() {
               <div className="auth-form__guidelines-section">
                 <p className="auth-form__guidelines-heading">Email</p>
                 <ul className="auth-form__guidelines-list">
-                  <li>Must be a valid email with a domain (e.g., name@domain.com)</li>
+                  <li>
+                    Must be a valid email with a domain (e.g., name@domain.com)
+                  </li>
                   <li>Max 254 characters</li>
                 </ul>
               </div>

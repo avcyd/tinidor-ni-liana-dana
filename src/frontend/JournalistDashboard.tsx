@@ -75,7 +75,7 @@ function JournalistDashboard() {
     <div className="dashboard-page">
       {/* BRANDING HEADER - Swaps behavior internally between layouts using mobile CSS */}
       <header className="dashboard-header-block">
-        <p className="header-text">WebsiteName</p>
+        <p className="header-text">The Culture Feed</p>
         <button
           className="hamburger-trigger"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -161,10 +161,14 @@ function JournalistDashboard() {
 
                   <div className="story-card__meta">
                     <span className="story-card__date">
-                      LAST UPDATED: {story.modifiedAt
-                        ? (typeof story.modifiedAt === "object" && "toDate" in story.modifiedAt
-                          ? (story.modifiedAt as { toDate: () => Date }).toDate().toLocaleDateString()
-                          : "")
+                      LAST UPDATED:{" "}
+                      {story.modifiedAt
+                        ? typeof story.modifiedAt === "object" &&
+                          "toDate" in story.modifiedAt
+                          ? (story.modifiedAt as { toDate: () => Date })
+                              .toDate()
+                              .toLocaleDateString()
+                          : ""
                         : ""}
                     </span>
                     <span

@@ -1,12 +1,22 @@
-import { useState, useEffect, type FormEvent, type ChangeEvent, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  type FormEvent,
+  type ChangeEvent,
+  useRef,
+} from "react";
 import { Link } from "react-router-dom";
-import { getAllPosts, deletePost, updatePostById } from "../../services/ArticleService";
+import {
+  getAllPosts,
+  deletePost,
+  updatePostById,
+} from "../../services/ArticleService";
 import {
   getCurrentUser,
   doOnAuthStateChange,
 } from "../../services/AuthService";
 import { getUserById } from "../../services/UserService";
-import {compressImage, uploadThumbnail} from "../../services/ImageService";
+import { compressImage, uploadThumbnail } from "../../services/ImageService";
 import type { ArticleProps } from "../../models/Article";
 import "../css/JournalistDashboard.css";
 import {
@@ -36,7 +46,7 @@ function Drafts() {
   const [editImageUrl, setEditImageUrl] = useState("");
   const [editCategory, setEditCategory] = useState("");
 
-  const [preview, setPreview] = useState('');
+  const [preview, setPreview] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const categories = [
@@ -96,7 +106,7 @@ function Drafts() {
     fetch();
   }, [currentUserId]);
 
-  const handleSelectDraft = async(draft: ArticleProps) => {
+  const handleSelectDraft = async (draft: ArticleProps) => {
     setActiveDraft(draft);
     setEditTitle(draft.title);
     setEditContent(draft.content);
@@ -127,7 +137,7 @@ function Drafts() {
         const finalStatus = action === "PUBLISH" ? "PUBLISHED" : "DRAFT";
 
         let imageUrl = "";
-        if(editImage){
+        if (editImage) {
           imageUrl = await uploadThumbnail(editImage);
         }
 
@@ -144,7 +154,14 @@ function Drafts() {
         setDraftsList((prev) =>
           prev.map((item) =>
             item.id === activeDraft.id
-              ? { ...item, title: editTitle, content: editContent, imageURL: editImageUrl, tags: editCategory ? [editCategory] : [], status: finalStatus }
+              ? {
+                  ...item,
+                  title: editTitle,
+                  content: editContent,
+                  imageURL: editImageUrl,
+                  tags: editCategory ? [editCategory] : [],
+                  status: finalStatus,
+                }
               : item,
           ),
         );
@@ -162,8 +179,8 @@ function Drafts() {
     }
   };
 
-  const handleFileChange = async(e: ChangeEvent<HTMLInputElement>) => {
-    if(e.target.files && e.target.files.length > 0){
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       const compressed = await compressImage(file);
       const fileURL = URL.createObjectURL(compressed);
@@ -171,11 +188,11 @@ function Drafts() {
       setEditImage(file);
       setPreview(fileURL);
     }
-  }
+  };
   return (
     <div className="dashboard-page">
       <header className="dashboard-header-block">
-        <p className="header-text">WebsiteName</p>
+        <p className="header-text">The Culture Feed</p>
         <button
           className="hamburger-trigger"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -323,7 +340,7 @@ function Drafts() {
                     onChange={handleFileChange}
                     disabled={!currentUserId}
                   />
-                  { preview && <img src={preview} alt="" /> }
+                  {preview && <img src={preview} alt="" />}
                 </div>
 
                 <div className="auth-field">
