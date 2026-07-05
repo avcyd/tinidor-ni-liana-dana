@@ -54,6 +54,10 @@ export const validateArticleUpdate = (data:Partial<ArticleProps>): Partial<Artic
     update.imageURL = data.imageURL;
   }
 
+  if (data.creatorDisplayName !== undefined) {
+    update.creatorDisplayName = data.creatorDisplayName;
+  }
+
   update.modifiedAt = serverTimestamp();
   return update;
 }

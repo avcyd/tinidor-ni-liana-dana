@@ -146,7 +146,7 @@ function Drafts() {
           content: editContent,
           tags: editCategory ? [editCategory] : [],
           status: finalStatus,
-          creatorDisplayName: currentUser,
+          creatorDisplayName: currentUser || "User",
           creatorId: currentUserId,
           imageURL: imageUrl || editImageUrl,
         } as Partial<ArticleProps>);

@@ -101,7 +101,7 @@ function CreatePosts() {
 
       await createPost({
         creatorId: currentUserId || "temporary-dev-id",
-        creatorDisplayName: currentUser,
+        creatorDisplayName: currentUser || "User",
         title: title,
         content: content,
         imageURL: imageUrl,
