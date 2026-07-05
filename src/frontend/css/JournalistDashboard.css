@@ -167,6 +167,9 @@
   color: #000000;
   font-weight: 500;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
   transition:
     opacity 0.2s ease,
     visibility 0.2s ease;

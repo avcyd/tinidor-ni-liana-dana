@@ -197,6 +197,20 @@
   opacity: 0.85;
 }
 
+.site-header__user-name {
+  display: flex;
+  align-items: center;
+  padding: 0.556rem 0.667rem;
+  font-family: var(--body);
+  font-size: 0.833rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  border-right: 1px solid var(--text);
+}
+
 .auth-btn--register {
   background: var(--text);
   color: #ffffff;

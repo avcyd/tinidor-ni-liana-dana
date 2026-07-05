@@ -60,6 +60,7 @@ export function TopNav() {
 
 export function SiteHeader() {
   const [currentUser, setCurrentUser] = useState("");
+  const [currentDisplayName, setCurrentDisplayName] = useState("");
   const [userRole, setUserRole] = useState("");
   const [logoutMsg, setLogoutMsg] = useState("");
 
@@ -67,6 +68,7 @@ export function SiteHeader() {
     const unsub = doOnAuthStateChange(async (user) => {
       if (!user) {
         setCurrentUser("");
+        setCurrentDisplayName("");
         setUserRole("");
         return;
       }
@@ -74,8 +76,10 @@ export function SiteHeader() {
       setCurrentUser(uid);
       try {
         const userData = await getUserById(uid);
+        setCurrentDisplayName(userData.displayName);
         setUserRole(userData.role);
       } catch {
+        setCurrentDisplayName("");
         setUserRole("");
       }
     });
@@ -116,6 +120,9 @@ export function SiteHeader() {
         <div className="site-header__auth">
           {currentUser ? (
             <>
+              <span className="site-header__user-name">
+                {currentDisplayName}
+              </span>
               {userRole === "JOURNALIST" && (
                 <Link to="/dashboard" className="auth-btn auth-btn--register">
                   Dashboard
