@@ -150,6 +150,11 @@ function Login() {
                 <p className="auth-form__guidelines-heading">Display Name</p>
                 <ul className="auth-form__guidelines-list">
                   <li>Optional — defaults to your email username</li>
+                  <li>
+                    Derived from email: dots, hyphens, and underscores become
+                    spaces, words are capitalized
+                  </li>
+                  <li>Max 50 characters</li>
                 </ul>
               </div>
               <div className="auth-form__guidelines-section">
@@ -158,7 +163,8 @@ function Login() {
                   <li>
                     Must be a valid email with a domain (e.g., name@domain.com)
                   </li>
-                  <li>Max 254 characters</li>
+                  <li>Max 254 characters total</li>
+                  <li>Local part (before @) max 64 characters</li>
                 </ul>
               </div>
               <div className="auth-form__guidelines-section">
