@@ -3,6 +3,7 @@ import {db, auth} from './firebase';
 import {createUser, transform} from '../models/User';
 import type {UserProps} from '../models/User'
 import {createUserWithEmailAndPassword} from 'firebase/auth'
+import {getAuthErrorMessage} from './AuthService'
 
 const ref = collection(db, "users");
 
@@ -18,7 +19,7 @@ export async function setUser(data: Partial<UserProps>, password: string): Promi
     return id;
 
   }catch(e){
-    throw e
+    throw new Error(getAuthErrorMessage(e));
   }
 }
 
