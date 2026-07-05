@@ -91,7 +91,6 @@ function AddUser() {
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
                     autoComplete="name"
-                    required
                     disabled={submitting}
                   />
                   <p className="auth-field__hint">
@@ -127,7 +126,7 @@ function AddUser() {
                     required
                     disabled={submitting}
                   />
-                  <p className="auth-field__hint">At least 6 characters</p>
+                  <p className="auth-field__hint">At least 8 characters</p>
                 </div>
 
                 <button

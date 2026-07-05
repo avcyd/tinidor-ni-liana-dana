@@ -7,6 +7,8 @@ import {createUserWithEmailAndPassword} from 'firebase/auth'
 const ref = collection(db, "users");
 
 export async function setUser(data: Partial<UserProps>, password: string): Promise<string>{
+  if (!password || password.length < 8) throw new Error(`Password must be at least 8 characters.`);
+  if (password.length > 128) throw new Error(`Password must not exceed 128 characters.`);
   const validated = createUser({...data});
 
   try{
