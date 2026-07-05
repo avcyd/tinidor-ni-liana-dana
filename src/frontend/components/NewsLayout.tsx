@@ -49,7 +49,7 @@ export function TopNav() {
               onClick={handleLinkClick}
               className={`top-nav__link ${activeCategory === link ? "top-nav__link--active" : ""}`}
             >
-              {link}
+              {link.toUpperCase()}
             </Link>
           </li>
         ))}

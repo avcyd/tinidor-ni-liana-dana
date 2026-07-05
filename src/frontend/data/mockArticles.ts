@@ -1,11 +1,6 @@
-export const NAV_LINKS = [
-  "CELEBRITY",
-  "MOVIES & TV",
-  "POP CULTURE",
-  "MUSIC",
-  "GAMING",
-  "SPORTS",
-] as const;
+import { CATEGORIES } from "../../models/Categories";
+
+export const NAV_LINKS = [...CATEGORIES] as const;
 
 export interface FeaturedArticle {
   id: string;

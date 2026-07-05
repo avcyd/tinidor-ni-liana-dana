@@ -17,6 +17,7 @@ import {
 } from "../../services/AuthService";
 import { getUserById } from "../../services/UserService";
 import { compressImage, uploadThumbnail } from "../../services/ImageService";
+import { CATEGORIES } from "../../models/Categories";
 import type { ArticleProps } from "../../models/Article";
 import "../css/JournalistDashboard.css";
 import {
@@ -49,14 +50,7 @@ function Drafts() {
   const [preview, setPreview] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const categories = [
-    "celebrity",
-    "movies & tv",
-    "pop culture",
-    "music",
-    "gaming",
-    "sports",
-  ];
+  const categories = CATEGORIES;
 
   useEffect(() => {
     const unsub = doOnAuthStateChange(async (user) => {

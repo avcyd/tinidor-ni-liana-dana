@@ -22,6 +22,7 @@ import {
   X,
 } from "lucide-react";
 import { compressImage, uploadThumbnail } from "../../services/ImageService";
+import { CATEGORIES } from "../../models/Categories";
 
 function CreatePosts() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -49,14 +50,7 @@ function CreatePosts() {
     }
   };
 
-  const categories = [
-    "celebrity",
-    "movies & tv",
-    "pop culture",
-    "music",
-    "gaming",
-    "sports",
-  ];
+  const categories = CATEGORIES;
 
   useEffect(() => {
     const unsub = doOnAuthStateChange(async (user) => {
