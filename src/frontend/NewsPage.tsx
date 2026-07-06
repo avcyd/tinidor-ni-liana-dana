@@ -57,6 +57,7 @@ export default function NewsPage() {
   const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const categoryFilter = searchParams.get("category") || "";
+  const searchQuery = searchParams.get("search") || "";
 
   useEffect(() => {
     const fetch = async () => {
@@ -75,11 +76,21 @@ export default function NewsPage() {
     fetch();
   }, []);
 
-  const filteredArticles = categoryFilter
-    ? articles.filter((a) =>
-        a.tags?.some((tag) => tag.toLowerCase() === categoryFilter.toLowerCase()),
-      )
-    : articles;
+  const filteredArticles = articles.filter((a) => {
+    if (categoryFilter && !a.tags?.some((tag) => tag.toLowerCase() === categoryFilter.toLowerCase())) {
+      return false;
+    }
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      const match =
+        a.title.toLowerCase().includes(q) ||
+        a.content.toLowerCase().includes(q) ||
+        a.tags?.some((tag) => tag.toLowerCase().includes(q)) ||
+        a.creatorDisplayName?.toLowerCase().includes(q);
+      if (!match) return false;
+    }
+    return true;
+  });
 
   return (
     <NewsPageShell>
@@ -88,7 +99,11 @@ export default function NewsPage() {
           {loading ? (
             <p className="article-status">Loading...</p>
           ) : filteredArticles.length === 0 ? (
-            <p className="article-status">No articles yet.</p>
+            <p className="article-status">
+              {searchQuery || categoryFilter
+                ? "No articles found matching your search."
+                : "No articles yet."}
+            </p>
           ) : (
             filteredArticles.map((article) => (
               <FeaturedArticleCard key={article.id} article={article} />

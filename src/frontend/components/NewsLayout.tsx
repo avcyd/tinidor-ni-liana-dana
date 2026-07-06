@@ -1,5 +1,5 @@
-import { Link, useSearchParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef, useCallback } from "react";
 import type { ReactNode } from "react";
 import { NAV_LINKS } from "../data/mockArticles";
 import { getLatestPosts } from "../../services/ArticleService";
@@ -63,6 +63,57 @@ export function SiteHeader() {
   const [currentDisplayName, setCurrentDisplayName] = useState("");
   const [userRole, setUserRole] = useState("");
   const [logoutMsg, setLogoutMsg] = useState("");
+  const [searchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
+  const navigate = useNavigate();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const debouncedNavigate = useCallback((q: string) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      if (q.trim()) {
+        navigate(`/?search=${encodeURIComponent(q.trim())}`, { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    }, 1500);
+  }, [navigate]);
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = searchInputRef.current;
+    if (!el) return;
+    const handler = () => {
+      setSearchQuery("");
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      navigate("/");
+    };
+    el.addEventListener("search", handler);
+    return () => el.removeEventListener("search", handler);
+  }, [navigate]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    debouncedNavigate(value);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    const q = searchQuery.trim();
+    if (q) {
+      navigate(`/?search=${encodeURIComponent(q)}`);
+    } else {
+      navigate("/");
+    }
+  };
 
   useEffect(() => {
     const unsub = doOnAuthStateChange(async (user) => {
@@ -109,14 +160,21 @@ export function SiteHeader() {
         <h1 className="site-header__logo">
           <Link to="/">The Culture Feed</Link>
         </h1>
-        <div className="site-header__search">
+        <form
+          className="site-header__search"
+          onSubmit={handleSearch}
+          role="search"
+        >
           <input
+            ref={searchInputRef}
             type="search"
             className="site-header__search-input"
             placeholder="Search..."
             aria-label="Search articles"
+            value={searchQuery}
+            onChange={handleSearchChange}
           />
-        </div>
+        </form>
         <div className="site-header__auth">
           {currentUser ? (
             <>
