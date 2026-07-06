@@ -77,7 +77,7 @@ export function SiteHeader() {
       } else {
         navigate("/", { replace: true });
       }
-    }, 1500);
+    }, 500);
   }, [navigate]);
 
   useEffect(() => {
@@ -90,9 +90,11 @@ export function SiteHeader() {
     const el = searchInputRef.current;
     if (!el) return;
     const handler = () => {
-      setSearchQuery("");
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-      navigate("/");
+      if (!el.value) {
+        setSearchQuery("");
+        if (debounceRef.current) clearTimeout(debounceRef.current);
+        navigate("/");
+      }
     };
     el.addEventListener("search", handler);
     return () => el.removeEventListener("search", handler);
