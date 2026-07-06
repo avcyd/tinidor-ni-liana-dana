@@ -301,6 +301,13 @@
   color: var(--subtext);
 }
 
+.featured-article__author {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
 .featured-article__author a {
   color: var(--accent);
   text-decoration: none;
