@@ -199,11 +199,11 @@
 }
 
 .site-header__user-name {
-  display: flex;
-  align-items: center;
+  display: block;
   padding: 0.556rem 0.667rem;
   font-family: var(--body);
   font-size: 0.833rem;
+  line-height: 0.833rem;
   color: var(--text);
   white-space: nowrap;
   overflow: hidden;
@@ -306,6 +306,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
+  max-width: 70%;
 }
 
 .featured-article__author a {
